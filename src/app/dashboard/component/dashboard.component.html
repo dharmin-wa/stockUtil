@@ -1,0 +1,43 @@
+<div class="grid-container">
+  <h1 class="mat-h1">Dashboard</h1>
+  <mat-grid-list cols="4" rowHeight="450px">
+    <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            {{card.title}}
+          </mat-card-title>
+          <mat-card-subtitle>
+            {{ card.subtitle ? card.subtitle : '' }}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <div [ngSwitch]="card.title">
+            <div *ngSwitchCase="'IT Stocks'">
+              <div id="piechart">
+                <apx-chart *ngIf="chartOptions" [series]="chartOptions.series" [chart]="chartOptions.chart"
+                  [labels]="chartOptions.labels" [responsive]="chartOptions.responsive"></apx-chart>
+              </div>
+            </div>
+            <div *ngSwitchCase="'Bank Stocks'">
+              <div id="linechart">
+                <apx-chart *ngIf="chartLineOptions" [series]="chartLineOptions.series" [chart]="chartLineOptions.chart"
+                  [xaxis]="chartLineOptions.xaxis" [stroke]="chartLineOptions.stroke" [colors]="chartLineOptions.colors"
+                  [dataLabels]="chartLineOptions.dataLabels" [legend]="chartLineOptions.legend"
+                  [markers]="chartLineOptions.markers" [grid]="chartLineOptions.grid" [yaxis]="chartLineOptions.yaxis"
+                  [title]="chartLineOptions.title"></apx-chart>
+              </div>
+            </div>
+            <div *ngSwitchCase="'Crud Oil'">
+              <apx-chart #chart *ngIf="chartSOptions" [series]="chartSOptions.series" [chart]="chartSOptions.chart"
+                [colors]="chartSOptions.colors" [yaxis]="chartSOptions.yaxis" [dataLabels]="chartSOptions.dataLabels"
+                [markers]="chartSOptions.markers" [stroke]="chartSOptions.stroke" [grid]="chartSOptions.grid"
+                [xaxis]="chartSOptions.xaxis" [tooltip]="chartSOptions.tooltip"></apx-chart>
+            </div>
+            <div *ngSwitchDefault>Card Content Here</div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

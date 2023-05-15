@@ -1,0 +1,65 @@
+<div class="grid-container">
+  <mat-form-field class="search-field">
+    <input type="text" placeholder="Search" matInput [formControl]="searchControl" [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
+      <mat-option *ngFor="let option of filteredOptions$ | async" [value]="option.symbol">
+        <b>{{ option.symbol }}</b> : {{ option.name }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+
+  <h1 class="mat-h1">Stock Details</h1>
+  <h4 class="mat-h1" *ngIf="stockDetailData.name">{{stockDetailData.name}} : <b>{{stockDetailData.symbol}}</b> </h4>
+  <h4 class="mat-h1" *ngIf="stockDetailData.name">Price : <b>{{stockDetailData.price}}</b> </h4>
+  <mat-grid-list cols="3" rowHeight="550px">
+    <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
+      <mat-card class="detail-card">
+        <mat-card-header>
+          <mat-card-title>
+            {{card.title}}
+            <mat-form-field *ngIf="chartStockHistoryOptions && card.title=='Stock History'" appearance="fill">
+              <mat-label>Duration</mat-label>
+              <select matNativeControl [(ngModel)]="selectedDuration" (change)="filterDataByTimeRangeEvent($event)">
+                <option value="last5days" [selected]="selectedDuration === 'last5days'">Last 5 days</option>
+                <option value="last1month" [selected]="selectedDuration === 'last1month'">Last month</option>
+                <option value="last6month" [selected]="selectedDuration === 'last6month'">Last 6 months</option>
+                <option value="last1year" [selected]="selectedDuration === 'last1year'">Last year</option>
+              </select>
+            </mat-form-field>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="detail-card-content">
+          <div [ngSwitch]="card.title">
+            <div *ngSwitchCase="'IntraDay'">
+              <div id="chartIntra">
+                <apx-chart *ngIf="chartIntraOptions" [series]="chartIntraOptions.series"
+                  [chart]="chartIntraOptions.chart" [xaxis]="chartIntraOptions.xaxis" [yaxis]="chartIntraOptions.yaxis"
+                  [title]="chartIntraOptions.title"></apx-chart>
+              </div>
+            </div>
+            <div *ngSwitchCase="'Stock'">
+              <div id="chartStock">
+                <apx-chart *ngIf="chartIntraOptions" [series]="chartStockOptions.series"
+                  [chart]="chartStockOptions.chart" [labels]="chartStockOptions.labels" [fill]="chartStockOptions.fill"
+                  [dataLabels]="chartStockOptions.dataLabels" [responsive]="chartStockOptions.responsive"></apx-chart>
+              </div>
+            </div>
+
+            <div *ngSwitchCase="'Stock History'">
+              <div id="chartHistory">
+                <apx-chart *ngIf="chartStockHistoryOptions" [series]="chartStockHistoryOptions.series"
+                  [chart]="chartStockHistoryOptions.chart" [dataLabels]="chartStockHistoryOptions.dataLabels"
+                  [plotOptions]="chartStockHistoryOptions.plotOptions" [yaxis]="chartStockHistoryOptions.yaxis"
+                  [legend]="chartStockHistoryOptions.legend" [fill]="chartStockHistoryOptions.fill"
+                  [stroke]="chartStockHistoryOptions.stroke" [tooltip]="chartStockHistoryOptions.tooltip"
+                  [xaxis]="chartStockHistoryOptions.xaxis"></apx-chart>
+              </div>
+            </div>
+            <div *ngSwitchDefault>Card Content Here</div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

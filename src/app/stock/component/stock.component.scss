@@ -1,0 +1,43 @@
+#chartIntra {
+  max-width: 650px;
+  margin: 35px auto;
+}
+
+#chartStock {
+  max-width: 380px;
+  margin: 35px auto;
+  padding: 0;
+}
+
+#chartStockHistory {
+  max-width: 650px;
+  margin: 35px auto;
+}
+
+.grid-container {
+  margin: 20px;
+}
+
+.detail-card {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+}
+
+.more-button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
+
+.detail-card-content {
+  text-align: center;
+}
+
+.search-field {
+  float: right;
+  width: 400px;
+  /* set your desired width here */
+}
