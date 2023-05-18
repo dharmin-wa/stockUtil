@@ -22,7 +22,6 @@ export class StockComponent implements OnInit, OnDestroy {
   @ViewChild("chartStock") chartStock!: ChartComponent;
   @ViewChild("chartHistory") chartHistory!: ChartComponent;
 
-  private API_KEY = 'KP7WNUWOXOPRLSK8';
   public cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
     map(({ matches }) => {
       if (matches) {
@@ -77,7 +76,7 @@ export class StockComponent implements OnInit, OnDestroy {
         distinctUntilChanged()).subscribe(
           (search) => {
             if (search) {
-              this.stockService.getStockDataList(search, this.API_KEY).subscribe(data => {
+              this.stockService.getStockDataList(search).subscribe(data => {
                 this.stockSearchList = data.bestMatches.map((item: any) => {
                   return { symbol: item['1. symbol'], name: item['2. name'], type: item['3. type'] };
                 }).filter((item: any) => item.name !== null);
@@ -105,7 +104,7 @@ export class StockComponent implements OnInit, OnDestroy {
   }
 
   public loadStockDetailData(symbol: string) {
-    const combinedTimers = forkJoin([this.stockService.getStockData(symbol, this.API_KEY), this.stockService.getSymbolInfo(symbol, this.API_KEY), this.stockService.getSymbolIntradayInfo(symbol, this.API_KEY), this.stockService.getSymbolTimeSeriesInfo(symbol, this.API_KEY)]);
+    const combinedTimers = forkJoin([this.stockService.getStockData(symbol), this.stockService.getSymbolInfo(symbol), this.stockService.getSymbolIntradayInfo(symbol), this.stockService.getSymbolTimeSeriesInfo(symbol)]);
 
     combinedTimers.subscribe((res: any) => {
       let stockTodaySummary: any = ((typeof res[0] === 'object' && res[0] == null) || res[0]?.Note || res[0]['Error Message']) ? undefined : res[0];

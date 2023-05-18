@@ -6,12 +6,12 @@ import {
   ApexAxisChartSeries,
   ChartComponent
 } from "ng-apexcharts";
+import { Socket } from 'ngx-socket-io';
 
 import { Subject, asyncScheduler, forkJoin, interval, of } from 'rxjs';
 import { map, mergeMap, takeUntil, toArray } from 'rxjs/operators';
 import { StockService } from 'src/app/shared/service/stock.service';
 import { ChartLineOptions, ChartOptions, ChartSOptions } from 'src/app/shared/type/stockchart.type';
-
 
 @Component({
   selector: 'app-dashboard',
@@ -53,16 +53,33 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public sData: any = [];
   public daysToAdd: number = 0;
 
-
-
-  constructor(private breakpointObserver: BreakpointObserver, private http: HttpClient, public stockService: StockService) { }
+  constructor(private breakpointObserver: BreakpointObserver, private http: HttpClient, public stockService: StockService, private socket: Socket) { }
 
   ngOnInit(): void {
+    this.sData = [];
+    this.initSocket();
     this.loadItStock();
     this.loadBankStocks();
-    this.initSChart();
-    this.realTimeNewDataS();
+    // this.realTimeNewDataS();
 
+  }
+
+  public initSocket() {
+    this.socket.connect();
+
+    this.socket.on("stockData", (data: any) => {
+      this.sData.push(data);
+      this.chartSOptions = {
+        ...this.chartSOptions,
+        series: [
+          {
+            data: this.sData
+          }
+        ],
+      }
+    });
+
+    this.initSChart();
   }
 
   public loadItStock() {
@@ -323,5 +340,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+    this.socket.disconnect();
   }
 }
