@@ -1,5 +1,4 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import * as _ from 'lodash';
 import {
@@ -10,7 +9,7 @@ import { Socket } from 'ngx-socket-io';
 
 import { Subject, asyncScheduler, forkJoin, interval, of } from 'rxjs';
 import { map, mergeMap, takeUntil, toArray } from 'rxjs/operators';
-import { StockService } from 'src/app/shared/service/stock.service';
+import { StockService } from '../../shared/service/stock.service';
 import { ChartLineOptions, ChartOptions, ChartSOptions } from 'src/app/shared/type/stockchart.type';
 
 @Component({
@@ -53,7 +52,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public sData: any = [];
   public daysToAdd: number = 0;
 
-  constructor(private breakpointObserver: BreakpointObserver, private http: HttpClient, public stockService: StockService, private socket: Socket) { }
+  constructor(private breakpointObserver: BreakpointObserver, public stockService: StockService, private socket: Socket) { }
 
   ngOnInit(): void {
     this.sData = [];

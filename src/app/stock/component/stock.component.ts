@@ -6,7 +6,7 @@ import {
   ChartComponent
 } from "ng-apexcharts";
 import { Observable, Subscription, debounceTime, distinctUntilChanged, forkJoin, map, of } from 'rxjs';
-import { StockService } from 'src/app/shared/service/stock.service';
+import { StockService } from '../../shared/service/stock.service';
 import { ChartOptions, ChartStockHistoryOptions, ChartStockOptions } from 'src/app/shared/type/stockchart.type';
 import { Stock } from '../model/stock';
 import { SeriesHistory, seriesHistory } from '../model/serieshistory';
