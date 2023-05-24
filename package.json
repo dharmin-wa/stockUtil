@@ -47,6 +47,10 @@
     "testPathIgnorePatterns": [
       "<rootDir>/dist/"
     ],
+    "testMatch": [
+      "**/__tests__/**/*.[t]s?(x)",
+      "**/?(*.)+(spec).[t]s?(x)"
+    ],
     "globals": {
       "ts-jest": {
         "tsconfig": "<rootDir>/tsconfig.spec.json"

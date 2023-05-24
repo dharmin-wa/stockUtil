@@ -7,10 +7,4 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent  {
   title = 'angular-demo-app';
-  showFiller = false;
-  // testingVar: boolean = false;
-
-  // demoFun(): void {
-  //   this.testingVar = true;
-  // }
 }

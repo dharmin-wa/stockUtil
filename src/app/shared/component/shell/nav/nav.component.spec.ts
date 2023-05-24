@@ -26,7 +26,7 @@ describe('NavComponent', () => {
         MatSidenavModule,
         MatToolbarModule,
       ],
-      schemas: [NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA],
+      schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 
@@ -35,8 +35,14 @@ describe('NavComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
+  
+  it('should initialize menuItems', () => {
+    expect(component.menuItems).toEqual(['dashboard', 'stock']);
+  });
 
-  it('should compile', () => {
-    expect(component).toBeTruthy();
+  it('should initialize isHandset$ with true', () => {
+    component.isHandset$.subscribe((isHandset) => {
+      expect(isHandset).toBe(true);
+    });
   });
 });

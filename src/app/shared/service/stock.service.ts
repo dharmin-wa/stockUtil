@@ -12,7 +12,8 @@ export class StockService {
   // private API_KEY1 = 'N0EHF7SIWY7DGM59';
   // private API_KEY2 = 'L1E7U6Q5VBJRCVAS';
   public API_KEYs = ['KP7WNUWOXOPRLSK8', 'N0EHF7SIWY7DGM59', 'L1E7U6Q5VBJRCVAS'];
-  private API_URL = `https://www.alphavantage.co/query`;
+  public API_URL = `https://www.alphavantage.co/query`;
+  public url = "";
   public lastIndex!: number;
 
 
@@ -24,27 +25,37 @@ export class StockService {
 
   public getStockData(symbol: string): Observable<any> {
     let API_KEY = this.getRandomString(this.API_KEYs);
-    return this.http.get(`${this.API_URL}?apikey=${API_KEY}&function=GLOBAL_QUOTE&symbol=${symbol}`);
+    this.url = "";
+    this.url = `${this.API_URL}?apikey=${API_KEY}&function=GLOBAL_QUOTE&symbol=${symbol}`;
+    return this.http.get(this.url);
   }
 
   public getStockDataList(searchText: string): Observable<any> {
     let API_KEY = this.getRandomString(this.API_KEYs);
-    return this.http.get(`${this.API_URL}?apikey=${API_KEY}&function=SYMBOL_SEARCH&keywords=${searchText}`);
+    this.url = "";
+    this.url = `${this.API_URL}?apikey=${API_KEY}&function=SYMBOL_SEARCH&keywords=${searchText}`;
+    return this.http.get(this.url);
   }
 
   public getSymbolInfo(symbol: string) {
     let API_KEY = this.getRandomString(this.API_KEYs);
-    return this.http.get(`${this.API_URL}?apikey=${API_KEY}&function=OVERVIEW&symbol=${symbol}`);
+    this.url = "";
+    this.url = `${this.API_URL}?apikey=${API_KEY}&function=OVERVIEW&symbol=${symbol}`;
+    return this.http.get(this.url);
   }
 
   public getSymbolTimeSeriesInfo(symbol: string) {
     let API_KEY = this.getRandomString(this.API_KEYs);
-    return this.http.get(`${this.API_URL}?apikey=${API_KEY}&function=TIME_SERIES_DAILY_ADJUSTED&symbol=${symbol}&outputsize=full`);
+    this.url = "";
+    this.url = `${this.API_URL}?apikey=${API_KEY}&function=TIME_SERIES_DAILY_ADJUSTED&symbol=${symbol}&outputsize=full`;
+    return this.http.get(this.url);
   }
 
   public getSymbolIntradayInfo(symbol: string) {
     let API_KEY = this.getRandomString(this.API_KEYs);
-    return this.http.get(`${this.API_URL}?apikey=${API_KEY}&function=TIME_SERIES_INTRADAY&interval=1min&symbol=${symbol}&outputsize=compact`);
+    this.url = "";
+    this.url = `${this.API_URL}?apikey=${API_KEY}&function=TIME_SERIES_INTRADAY&interval=1min&symbol=${symbol}&outputsize=compact`;
+    return this.http.get(this.url);
   }
 
   public getRandomString(strings: string[]) {

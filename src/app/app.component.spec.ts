@@ -36,7 +36,7 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent,
       ],
-      schemas: [NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA],
+      schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   });
 
@@ -46,14 +46,9 @@ describe('AppComponent', () => {
     fixture.detectChanges();
   })
 
-  // it(`should have as title 'angular-demo-app'`, () => {
-  //   expect(component.testingVar).toBeFalsy();
-  //   expect(component.title).toEqual('angular-demo-app');
-  // });
+  it(`should have as title 'angular-demo-app'`, () => {
+    expect(component.title).toEqual('angular-demo-app');
+  });
 
-  // it('should set the value of testingVar to true', () => {
-  //   component.demoFun();
-  //   expect(component.testingVar).toBeTruthy();
-  // })
 
 });

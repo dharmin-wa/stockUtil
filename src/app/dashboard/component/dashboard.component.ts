@@ -8,7 +8,7 @@ import {
 import { Socket } from 'ngx-socket-io';
 
 import { Subject, asyncScheduler, forkJoin, interval, of } from 'rxjs';
-import { map, mergeMap, takeUntil, toArray } from 'rxjs/operators';
+import { map, mergeMap, takeUntil, tap, toArray } from 'rxjs/operators';
 import { StockService } from '../../shared/service/stock.service';
 import { ChartLineOptions, ChartOptions, ChartSOptions } from 'src/app/shared/type/stockchart.type';
 
@@ -81,7 +81,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.initSChart();
   }
 
-  public loadItStock() {
+  public loadItStock1() {
+    debugger
     this.symbolLabels = new Array<string>();
     this.symbolSeries = new Array<number>();
     let length = 0;
@@ -92,6 +93,42 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ).subscribe(symbols => {
       length = symbols.length;
     });
+
+
+    const stockData = stockSymbols.pipe(
+      mergeMap(path => this.stockService.getDataFromJson(path))
+    );
+    stockData.subscribe(data => {
+      if (data.Note) {
+        throw new Error(data.Note);
+      }
+      else {
+        if (data && data.length > 0) {
+          let selectedData = data[data.length - 1];
+          if (selectedData.Symbol != undefined) {
+            this.symbolLabels.push(selectedData.Symbol);
+            this.symbolSeries.push(selectedData.Close);
+          }
+        }
+
+        if (length == this.symbolLabels.length)
+          this.initChart();
+      }
+    });
+  }
+
+  public loadItStock() {
+    this.symbolLabels = new Array<string>();
+    this.symbolSeries = new Array<number>();
+    let length = 0;
+    const stockSymbols = of('assets/data/TCS.json', 'assets/data/WIPRO.json', 'assets/data/HCLTECH.json');
+
+    stockSymbols.pipe(
+      toArray(),
+      tap((symbols: string | any[]) => {
+        length = symbols.length;
+      })
+    ).subscribe();
 
 
     const stockData = stockSymbols.pipe(
